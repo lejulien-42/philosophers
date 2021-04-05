@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/04 16:11:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:22:25 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@
 # define THINK	3
 # define FORK	4
 
-const char	*state[5] = {"has died", "is eating", "is sleeping", "is thinking",
-						"has taken a fork"};
-
 typedef struct			s_philo
 {
 	int					id;
+	int					state;
 	unsigned long int	time_to_die;
 	unsigned long int	time_to_eat;
 	unsigned long int	time_to_sleep;
@@ -41,4 +39,6 @@ typedef struct			s_philo
 }						t_philo;
 
 unsigned long int		ft_get_ct(struct timeval *c_time_start);
+void					init_philos(t_philo **philos, struct timeval *c_time_start,  int nbr);
+void					display_state(t_philo **phi);
 #endif

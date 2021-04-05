@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/04 16:37:55 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:22:26 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ unsigned long int
 }
 
 void
-	gen_philos(int ac, char **av, t_philo **philos)
+	gen_philos(int ac, char **av, t_philo **philos, struct timeval *c_time_start)
 {
 	int		i;
 	t_philo	*phi;
@@ -35,19 +35,20 @@ void
 		if (!(phi = malloc(sizeof(t_philo))))
 			return ;
 		phi->id = i;
+		phi->state = SLEEP;
 		phi->time_to_die = ft_atouli(av[2]);
 		phi->time_to_die = ft_atouli(av[3]);
 		phi->time_to_die = ft_atouli(av[4]);
+		phi->c_time_start = c_time_start;
+		phi->c_time_last_eat = NULL;
+		phi->nbr_of_lunch = 0;
 		phi->next = NULL;
 		if (ac == 6)
 			phi->max_launch = ft_atoi(av[5]);
 		else
 			phi->max_launch = -1;
 		if (!*philos)
-		{
 			*philos = phi;
-			i++;
-		}
 		else
 		{
 			while (ptr->next != NULL)
@@ -56,7 +57,6 @@ void
 		}
 		i++;
 	}
-	printf("generaion done\n");
 }
 
 int
@@ -85,9 +85,10 @@ int
 
 	if (ac == 5 || ac == 6)
 	{
-		gen_philos(ac, av, &philos);
+		gen_philos(ac, av, &philos, &c_time_start);
 		if (philos == NULL)
 			return (free_philos(&philos));
+		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
 		free_philos(&philos);
 	}
 	else
