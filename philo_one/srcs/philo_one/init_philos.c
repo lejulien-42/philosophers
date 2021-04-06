@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/05 17:22:24 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:46:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,15 @@ static void
 {
 	struct timeval	c_time_start;
 	t_philo			*ptr;
+	unsigned long int	start_sleeping;
 
 	ptr = *philo;
 	gettimeofday(&c_time_start, NULL);
+	start_sleeping = ft_get_ct(&c_time_start);
 	display_state(philo);
-	while ((ft_get_ct(ptr->c_time_start) - ft_get_ct(&c_time_start)) < ptr->time_to_sleep)
-	{
-		if ((ft_get_ct(ptr->c_time_start) - ft_get_ct(ptr->c_time_last_eat)) >= ptr->time_to_die)
-		{
-			display_state(philo);
-			ptr->state = DIED;
-			return ;
-		}
-	}
+	while ((ft_get_ct(ptr->data->c_time_start) - start_sleeping) < 11000)
+		if ((ft_get_ct(ptr->data->c_time_start) - ptr->last_eat) >= ptr->data->time_to_die)
+			return ((void)(ptr->state = DIED));
 	ptr->state = THINK;
 }
 
@@ -39,13 +35,12 @@ void
 	t_philo	*ptr;
 
 	ptr = *(t_philo **)philo;
-	gettimeofday(ptr->c_time_last_eat, NULL);
+	ptr->last_eat = gettimeofday(ptr->data->c_time_start, NULL);
 	while (ptr->state != DIED)
 	{
 		if (ptr->state == SLEEP)
 			ft_sleep(philo);
 	}
-	printf("->%d\n", ptr->state);
 	display_state(philo);
 	return (NULL);
 }

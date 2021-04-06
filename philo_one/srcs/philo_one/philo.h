@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/05 17:22:25 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:46:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,23 @@
 # define THINK	3
 # define FORK	4
 
-typedef struct			s_philo
+typedef struct			s_data
 {
-	int					id;
-	int					state;
 	unsigned long int	time_to_die;
 	unsigned long int	time_to_eat;
 	unsigned long int	time_to_sleep;
 	int					max_launch;
+	int					write_access_i;
+	pthread_mutex_t		*write_access_m;
 	struct timeval		*c_time_start;
-	struct timeval		*c_time_last_eat;
+}						t_data;
+
+typedef struct			s_philo
+{
+	int					id;
+	int					state;
+	t_data				*data;
+	unsigned long int	last_eat;
 	int					nbr_of_lunch;
 	struct s_philo		*next;
 }						t_philo;

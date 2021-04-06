@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/05 17:22:26 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:46:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ unsigned long int
 }
 
 void
-	gen_philos(int ac, char **av, t_philo **philos, struct timeval *c_time_start)
+	gen_philos(int ac, char **av, t_philo **philos, t_data *data)
 {
-	int		i;
-	t_philo	*phi;
-	t_philo	*ptr;
+	int				i;
+	t_philo			*phi;
+	t_philo			*ptr;
 
 	i = 0;
 	while (i < ft_atoi(av[1]))
@@ -36,17 +36,10 @@ void
 			return ;
 		phi->id = i;
 		phi->state = SLEEP;
-		phi->time_to_die = ft_atouli(av[2]);
-		phi->time_to_die = ft_atouli(av[3]);
-		phi->time_to_die = ft_atouli(av[4]);
-		phi->c_time_start = c_time_start;
-		phi->c_time_last_eat = NULL;
+		phi->last_eat = 0;
 		phi->nbr_of_lunch = 0;
+		phi->data = data;
 		phi->next = NULL;
-		if (ac == 6)
-			phi->max_launch = ft_atoi(av[5]);
-		else
-			phi->max_launch = -1;
 		if (!*philos)
 			*philos = phi;
 		else
@@ -62,8 +55,8 @@ void
 int
 	free_philos(t_philo **philos)
 {
-	t_philo	*ptr;
-	t_philo	*tmp;
+	t_philo			*ptr;
+	t_philo			*tmp;
 
 	ptr = *philos;
 	if (!*philos)
@@ -77,18 +70,45 @@ int
 	return (1);
 }
 
+static t_data
+	*init_data(int ac, char **av, struct timeval *c_time_start, pthread_mutex_t *write_access)
+{
+	t_data	*data;
+
+	if (!(data = malloc(sizeof(t_data))))
+		return (NULL);
+	data->time_to_die = ft_atouli(av[2]);
+	data->time_to_eat = ft_atouli(av[3]);
+	data->time_to_sleep = ft_atouli(av[4]);
+	if (ac == 6)
+		data->max_launch = ft_atoi(av[5]);
+	else
+		data->max_launch = -1;
+	data->write_access_i = 1;
+	data->write_access_m = write_access;
+	data->c_time_start = c_time_start;
+	return (data);
+}
+
 int
 	main(int ac, char **av)
 {
-	struct timeval	c_time_start;
 	t_philo			*philos;
+	t_data			*data;
+	struct timeval	c_time_start;
+	pthread_mutex_t	write_access;
 
 	if (ac == 5 || ac == 6)
 	{
-		gen_philos(ac, av, &philos, &c_time_start);
+		if (!pthread_mutex_init(&write_access, NULL))
+			return (1);
+		if (!(data = init_data(ac, av, &c_time_start, &write_access)))
+			return (1);
+		gen_philos(ac, av, &philos, data);
 		if (philos == NULL)
 			return (free_philos(&philos));
 		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
+		free(data);
 		free_philos(&philos);
 	}
 	else

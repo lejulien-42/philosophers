@@ -6,13 +6,14 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/05 18:43:38 by lejulien          #+#    #+#              #
-#    Updated: 2021/04/05 17:22:27 by lejulien         ###   ########.fr        #
+#    Updated: 2021/04/06 12:56:34 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-UTILS = ./utils/ft_atoi.c
+UTILS = ./srcs/utils/ft_atoi.c
 
-SRCS = 	./srcs/main.c ./srcs/init_philos.c ./srcs/display.c
+SRCS = 	./srcs/philo_one/main.c ./srcs/philo_one/init_philos.c \
+		./srcs/philo_one/display.c
 
 SRCS_OBJS = ${SRCS:.c=.o}
 UTILS_OBJS = ${UTILS:.c=.o}
