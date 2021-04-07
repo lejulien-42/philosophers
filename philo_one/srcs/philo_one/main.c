@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/06 17:46:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/07 16:44:26 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void
 		ptr = *philos;
 		if (!(phi = malloc(sizeof(t_philo))))
 			return ;
-		phi->id = i;
+		phi->id = i + 1;
 		phi->state = SLEEP;
 		phi->last_eat = 0;
 		phi->nbr_of_lunch = 0;
@@ -98,9 +98,10 @@ int
 	struct timeval	c_time_start;
 	pthread_mutex_t	write_access;
 
+	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if (!pthread_mutex_init(&write_access, NULL))
+		if (pthread_mutex_init(&write_access, NULL) != 0)
 			return (1);
 		if (!(data = init_data(ac, av, &c_time_start, &write_access)))
 			return (1);

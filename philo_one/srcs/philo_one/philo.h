@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/06 17:46:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/07 16:38:48 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ typedef struct			s_philo
 
 unsigned long int		ft_get_ct(struct timeval *c_time_start);
 void					init_philos(t_philo **philos, struct timeval *c_time_start,  int nbr);
-void					display_state(t_philo **phi);
+void					display_state(t_philo *phi);
 #endif

@@ -6,7 +6,7 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/05 18:43:38 by lejulien          #+#    #+#              #
-#    Updated: 2021/04/06 12:56:34 by lejulien         ###   ########.fr        #
+#    Updated: 2021/04/07 16:13:17 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS = -Wall -Wextra -Werror -lpthread
 NAME = philo_one
 
 $(NAME): $(SRCS_OBJS) $(UTILS_OBJS)
-	gcc $(FLAGS) -o $(NAME) $(SRCS_OBJS) $(UTILS_OBJS)
+	gcc -o $(NAME) $(SRCS_OBJS) $(UTILS_OBJS) $(FLAGS)
 
 clean:
 	rm -f $(SRCS_OBJS) $(UTILS_OBJS)
