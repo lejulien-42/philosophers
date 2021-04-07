@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/07 16:38:48 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/07 20:56:29 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@
 
 typedef struct			s_data
 {
+	int					nbr;
 	unsigned long int	time_to_die;
 	unsigned long int	time_to_eat;
 	unsigned long int	time_to_sleep;
 	int					max_launch;
 	int					write_access_i;
 	pthread_mutex_t		*write_access_m;
+	pthread_mutex_t		*forks;
 	struct timeval		*c_time_start;
 }						t_data;
 

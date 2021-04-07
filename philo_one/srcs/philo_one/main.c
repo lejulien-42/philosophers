@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/07 16:44:26 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/07 21:02:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,23 @@ static t_data
 	*init_data(int ac, char **av, struct timeval *c_time_start, pthread_mutex_t *write_access)
 {
 	t_data	*data;
+	int		i;
 
+	i = 0;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
+	if (!(data->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t))))    // free this later
+		return (NULL);
+	while (i < ft_atoi(av[1]))
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (NULL);
+		i++;
+	}
 	data->time_to_die = ft_atouli(av[2]);
 	data->time_to_eat = ft_atouli(av[3]);
 	data->time_to_sleep = ft_atouli(av[4]);
+	data->nbr = ft_atoi(av[1]);
 	if (ac == 6)
 		data->max_launch = ft_atoi(av[5]);
 	else
@@ -109,6 +120,7 @@ int
 		if (philos == NULL)
 			return (free_philos(&philos));
 		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
+		free(data->forks);
 		free(data);
 		free_philos(&philos);
 	}
