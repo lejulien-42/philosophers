@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/07 21:02:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/08 17:23:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void
 		ptr = *philos;
 		if (!(phi = malloc(sizeof(t_philo))))
 			return ;
-		phi->id = i + 1;
+		phi->id = i;
 		phi->state = SLEEP;
 		phi->last_eat = 0;
 		phi->nbr_of_lunch = 0;
@@ -81,12 +81,19 @@ static t_data
 		return (NULL);
 	if (!(data->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t))))    // free this later
 		return (NULL);
+	if (!(data->forks_status = malloc(ft_atoi(av[1]) * sizeof(int))))    // free this
+		return (NULL);
+	if (!(data->is_a_dead_guy = malloc(sizeof(int))))    // free this
+		return (NULL);
+	data->is_a_dead_guy[0] = 0;
 	while (i < ft_atoi(av[1]))
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			return (NULL);
+		data->forks_status[i] = 1;
 		i++;
 	}
+	data->nbr = ft_atoi(av[1]);
 	data->time_to_die = ft_atouli(av[2]);
 	data->time_to_eat = ft_atouli(av[3]);
 	data->time_to_sleep = ft_atouli(av[4]);
@@ -95,7 +102,9 @@ static t_data
 		data->max_launch = ft_atoi(av[5]);
 	else
 		data->max_launch = -1;
-	data->write_access_i = 1;
+	if (!(data->write_access_i = malloc(sizeof(int))))    // free this
+		return (NULL);
+	data->write_access_i[0] = 1;
 	data->write_access_m = write_access;
 	data->c_time_start = c_time_start;
 	return (data);
@@ -109,6 +118,7 @@ int
 	struct timeval	c_time_start;
 	pthread_mutex_t	write_access;
 
+
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
@@ -121,6 +131,7 @@ int
 			return (free_philos(&philos));
 		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
 		free(data->forks);
+		free(data->forks_status);
 		free(data);
 		free_philos(&philos);
 	}
