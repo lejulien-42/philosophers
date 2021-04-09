@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/09 16:47:38 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:18:04 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void
 	ptr = *philos;
 	i = 0;
 
-	gettimeofday(ptr->data->c_time_start, NULL);
 	while (ptr)
 	{
 		pthread_create(&thread_id[i], NULL, philosopher, ptr);
@@ -115,7 +114,6 @@ void
 	ptr = *philos;
 	gettimeofday(ptr->data->c_time_start, NULL);
 	ptr->data->started = 1;
-	ptr = *philos;
 	i = 0;
 	while (ptr)
 	{

@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:44:08 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/09 16:41:19 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:15:18 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void
 	display_state(phi);
 	phi->last_eat = ft_get_ct(phi->data->c_time_start);
 	usleep(phi->data->time_to_eat * 1000);
+	if (phi->id == 0)
+	{
+		phi->data->forks_status[phi->data->nbr - 1] = 1;
+		pthread_mutex_unlock(&phi->data->forks[phi->data->nbr - 1]);
+	}
+	else
+	{
+		phi->data->forks_status[phi->id - 1] = 1;
+		pthread_mutex_unlock(&phi->data->forks[phi->id - 1]);
+	}
+	phi->data->forks_status[phi->id] = 1;
+	pthread_mutex_unlock(&phi->data->forks[phi->id]);
 	phi->state = SLEEP;
 }
 

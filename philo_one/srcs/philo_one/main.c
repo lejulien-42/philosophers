@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/09 16:03:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:57:00 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		gen_philos(ac, av, &philos, init_data(ac, av, &c_time_start));
+		data = init_data(ac, av, &c_time_start); ///////////check later
+		gen_philos(ac, av, &philos, data);
 		if (philos == NULL)
 			return (free_philos(&philos));
 		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
