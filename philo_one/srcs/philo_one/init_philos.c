@@ -6,51 +6,91 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/08 17:22:37 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:47:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void
-	ft_sleep(t_philo **philo)
-{
-	struct timeval	c_time_start;
-	unsigned long int	start_sleeping;
-	t_philo				*ptr;
 
-	ptr = *philo;
-	gettimeofday(&c_time_start, NULL);
-	start_sleeping = ft_get_ct(&c_time_start);
-	display_state(ptr);
-	while ((ft_get_ct(ptr->data->c_time_start) - start_sleeping) < ptr->data->time_to_sleep)
-		if ((ft_get_ct(ptr->data->c_time_start) - ptr->last_eat) >= ptr->data->time_to_die)
-			return ((void)(ptr->state = DIED));
-	ptr->state = THINK;
+static void
+	next_state(t_philo *phi)
+{
+	if (phi->state == FORK)
+	{
+		display_state(phi);
+		phi->state = EAT;
+	}
+	else if (phi->state == THINK)
+	{
+		phi->state = FORK;
+		display_state(phi);
+	}
 }
 
 void
-	*philosopher(void *philo)
+	ft_think(t_philo *phi)
 {
-	t_philo	*ptr;
-
-	ptr = (t_philo *)philo;
-	if (ptr->id % 2 == 0)
-		ptr->state = THINK;
-	ptr->last_eat = 0;
-	while (ptr->state != DIED && !ptr->data->is_a_dead_guy[0])
+	if (phi->state == THINK)
+		display_state(phi);
+	while (phi->state != EAT)
 	{
-		if (ptr->state == SLEEP)
-			ft_sleep(&ptr);
-		if (ptr->state == THINK || ptr->state == FORK)
-			ft_think(&ptr);
-		if (ptr->state == EAT)
-			ft_eat(&ptr);
+		if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
+		{
+			phi->state = DIED;
+			return ;
+		}
+		if (phi->id == 0)
+		{
+			if (phi->data->forks_status[phi->data->nbr - 1])
+			{
+				phi->data->forks_status[phi->data->nbr - 1] = 0;
+				pthread_mutex_lock(&phi->data->forks[phi->data->nbr - 1]);
+				next_state(phi);
+			}
+		}
+		else
+		{
+			if (phi->data->forks_status[phi->id - 1])
+			{
+				phi->data->forks_status[phi->id - 1] = 0;
+				pthread_mutex_lock(&phi->data->forks[phi->id - 1]);
+				next_state(phi);
+			}
+		}
+		if (phi->data->forks_status[phi->id])
+		{
+			phi->data->forks_status[phi->id] = 0;
+			pthread_mutex_lock(&phi->data->forks[phi->id]);
+			next_state(phi);
+		}
 	}
-	ptr->data->is_a_dead_guy[0] = 1;
-	display_state(ptr);
-	ptr->data->write_access_i[0] = 0;
-	pthread_mutex_lock(ptr->data->write_access_m);
+}
+
+void
+	*philosopher(void *philos)
+{
+	t_philo	*phi;
+
+	phi = (t_philo *)philos;
+	phi->last_eat = 0;
+	if (phi->id % 2 == 0)
+		phi->state = THINK;
+	while (!phi->data->started);
+	while (phi->state != DIED && !phi->data->is_a_dead_guy)
+	{
+		if (phi->state == THINK)
+			ft_think(phi);
+		else if (phi->state == EAT)
+			ft_eat(phi);
+		else if (phi->state == SLEEP)
+			ft_sleep(phi);
+	}
+	if (phi->state == DIED)
+	{
+		display_state(phi);
+		phi->data->is_a_dead_guy = 1;
+	}
 	return (NULL);
 }
 
@@ -64,20 +104,23 @@ void
 	ptr = *philos;
 	i = 0;
 
-	philos[0]->data->write_access_i[0] = 1;
-	gettimeofday(c_time_start, NULL);
+	gettimeofday(ptr->data->c_time_start, NULL);
 	while (ptr)
 	{
 		pthread_create(&thread_id[i], NULL, philosopher, ptr);
 		ptr = ptr->next;
 		i++;
 	}
+	usleep(10000);
+	ptr = *philos;
+	gettimeofday(ptr->data->c_time_start, NULL);
+	ptr->data->started = 1;
 	ptr = *philos;
 	i = 0;
 	while (ptr)
 	{
 		pthread_join(thread_id[i], NULL);
-		ptr = ptr->next;
 		i++;
+		ptr = ptr->next;
 	}
 }

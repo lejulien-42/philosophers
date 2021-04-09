@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/08 17:23:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:03:51 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int
 }
 
 static t_data
-	*init_data(int ac, char **av, struct timeval *c_time_start, pthread_mutex_t *write_access)
+	*init_data(int ac, char **av, struct timeval *c_time_start)
 {
 	t_data	*data;
 	int		i;
@@ -83,9 +83,8 @@ static t_data
 		return (NULL);
 	if (!(data->forks_status = malloc(ft_atoi(av[1]) * sizeof(int))))    // free this
 		return (NULL);
-	if (!(data->is_a_dead_guy = malloc(sizeof(int))))    // free this
-		return (NULL);
-	data->is_a_dead_guy[0] = 0;
+	data->is_a_dead_guy = 0;
+	data->started = 0;
 	while (i < ft_atoi(av[1]))
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
@@ -102,10 +101,6 @@ static t_data
 		data->max_launch = ft_atoi(av[5]);
 	else
 		data->max_launch = -1;
-	if (!(data->write_access_i = malloc(sizeof(int))))    // free this
-		return (NULL);
-	data->write_access_i[0] = 1;
-	data->write_access_m = write_access;
 	data->c_time_start = c_time_start;
 	return (data);
 }
@@ -116,17 +111,11 @@ int
 	t_philo			*philos;
 	t_data			*data;
 	struct timeval	c_time_start;
-	pthread_mutex_t	write_access;
-
 
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if (pthread_mutex_init(&write_access, NULL) != 0)
-			return (1);
-		if (!(data = init_data(ac, av, &c_time_start, &write_access)))
-			return (1);
-		gen_philos(ac, av, &philos, data);
+		gen_philos(ac, av, &philos, init_data(ac, av, &c_time_start));
 		if (philos == NULL)
 			return (free_philos(&philos));
 		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
