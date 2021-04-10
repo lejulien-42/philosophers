@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/09 16:42:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/10 17:13:36 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct			s_philo
 	t_data				*data;
 	unsigned long int	last_eat;
 	int					nbr_of_lunch;
+	struct timeval		*c_time_start;
 	struct s_philo		*next;
 }						t_philo;
 

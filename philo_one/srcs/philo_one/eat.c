@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:44:08 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/10 14:46:22 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/10 17:50:02 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ void
 	display_state(phi);
 	while (ft_get_ct(phi->data->c_time_start) - phi->last_eat < phi->data->time_to_eat)
 	{
-		if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
-		{
-			phi->state = DIED;
+		if (phi->state == DIED)
 			return ;
-		}
 	}
 	if (phi->id == 0)
 	{
@@ -48,13 +45,15 @@ void
 
 	display_state(phi);
 	start = ft_get_ct(phi->data->c_time_start);
+	if (!phi->data->started)
+	{
+		phi->state = SLEEP;
+		return ;
+	}
 	while (ft_get_ct(phi->data->c_time_start) - start < phi->data->time_to_sleep)
 	{
-		if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
-		{
-			phi->state = DIED;
+		if (phi->state == DIED)
 			return ;
-		}
 	}
 	phi->state = THINK;
 }

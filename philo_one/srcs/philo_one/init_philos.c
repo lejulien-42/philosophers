@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/10 14:40:02 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/10 17:41:58 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ void
 		display_state(phi);
 	while (phi->state != EAT)
 	{
-		if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
-		{
-			phi->state = DIED;
+		if (phi->state == DIED)
 			return ;
-		}
 		if (phi->id == 0)
 		{
 			if (phi->data->forks_status[phi->data->nbr - 1])
@@ -70,17 +67,13 @@ void
 
 	phi = (t_philo *)philos;
 	phi->last_eat = 0;
-	if (phi->id % 2 == 0)
-		phi->state = THINK;
-	while (!phi->data->started);
+	(phi->id % 2 == 0) ? (phi->state = SLEEP) : (phi->state = THINK);
+	//while (!phi->data->started);
 	while (phi->state != DIED && !phi->data->is_a_dead_guy)
 	{
-		if (phi->state == THINK)
-			ft_think(phi);
-		else if (phi->state == EAT)
-			ft_eat(phi);
-		else if (phi->state == SLEEP)
-			ft_sleep(phi);
+		(phi->state == THINK) ? ft_think(phi) : NULL;
+		(phi->state == EAT) ? ft_eat(phi) : NULL;
+		(phi->state == SLEEP) ? ft_sleep(phi) : NULL;
 	}
 	if (phi->state == DIED)
 	{
@@ -88,6 +81,17 @@ void
 		phi->data->is_a_dead_guy = 1;
 	}
 	return (NULL);
+}
+
+static int
+	check_death(t_philo *phi)
+{
+	if (phi->data->started && ft_get_ct(phi->data->c_time_start) - phi->last_eat > phi->data->time_to_die)
+	{
+		phi->state = DIED;
+		return (1);
+	}
+	return (0);
 }
 
 void
@@ -106,10 +110,19 @@ void
 		ptr = ptr->next;
 		i++;
 	}
-	usleep(10000);
 	ptr = *philos;
+	usleep(500);
 	gettimeofday(ptr->data->c_time_start, NULL);
 	ptr->data->started = 1;
+	while (1)
+	{
+		if (check_death(ptr))
+			break ;
+		ptr = ptr->next;
+		if (ptr == NULL)
+			ptr = *philos;
+	}
+	ptr = *philos;
 	i = 0;
 	while (ptr)
 	{
