@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/09 18:18:04 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/10 14:40:02 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ static void
 }
 
 void
+	take_fork(t_philo *phi, int index)
+{
+	phi->data->forks_status[index] = 0;
+	pthread_mutex_lock(&phi->data->forks[index]);
+	next_state(phi);
+}
+
+void
 	ft_think(t_philo *phi)
 {
 	if (phi->state == THINK)
@@ -43,27 +51,15 @@ void
 		if (phi->id == 0)
 		{
 			if (phi->data->forks_status[phi->data->nbr - 1])
-			{
-				phi->data->forks_status[phi->data->nbr - 1] = 0;
-				pthread_mutex_lock(&phi->data->forks[phi->data->nbr - 1]);
-				next_state(phi);
-			}
+				take_fork(phi, phi->data->nbr - 1);
 		}
 		else
 		{
 			if (phi->data->forks_status[phi->id - 1])
-			{
-				phi->data->forks_status[phi->id - 1] = 0;
-				pthread_mutex_lock(&phi->data->forks[phi->id - 1]);
-				next_state(phi);
-			}
+				take_fork(phi, phi->id - 1);
 		}
 		if (phi->data->forks_status[phi->id])
-		{
-			phi->data->forks_status[phi->id] = 0;
-			pthread_mutex_lock(&phi->data->forks[phi->id]);
-			next_state(phi);
-		}
+			take_fork(phi, phi->id);
 	}
 }
 
