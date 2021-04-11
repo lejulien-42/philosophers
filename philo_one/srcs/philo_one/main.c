@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/10 17:37:00 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/11 16:47:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void
 		phi->id = i;
 		phi->state = SLEEP;
 		phi->last_eat = 0;
+		phi->is_eating = 0;
 		phi->nbr_of_lunch = 0;
 		phi->data = data;
 		phi->next = NULL;
