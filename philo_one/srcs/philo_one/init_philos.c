@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/10 17:41:58 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:29:15 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void
 		display_state(phi);
 	while (phi->state != EAT)
 	{
-		if (phi->state == DIED)
-			return ;
 		if (phi->id == 0)
 		{
 			if (phi->data->forks_status[phi->data->nbr - 1])
@@ -57,6 +55,8 @@ void
 		}
 		if (phi->data->forks_status[phi->id])
 			take_fork(phi, phi->id);
+		if (phi->state == DIED)
+			return ;
 	}
 }
 
@@ -68,7 +68,7 @@ void
 	phi = (t_philo *)philos;
 	phi->last_eat = 0;
 	(phi->id % 2 == 0) ? (phi->state = SLEEP) : (phi->state = THINK);
-	//while (!phi->data->started);
+	while (!phi->data->started);
 	while (phi->state != DIED && !phi->data->is_a_dead_guy)
 	{
 		(phi->state == THINK) ? ft_think(phi) : NULL;

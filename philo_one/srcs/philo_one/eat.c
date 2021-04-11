@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:44:08 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/10 17:50:02 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:25:42 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void
 	ft_eat(t_philo *phi)
 {
 
-	phi->last_eat = ft_get_ct(phi->data->c_time_start);
 	display_state(phi);
+	phi->last_eat = ft_get_ct(phi->data->c_time_start);
 	while (ft_get_ct(phi->data->c_time_start) - phi->last_eat < phi->data->time_to_eat)
 	{
 		if (phi->state == DIED)
