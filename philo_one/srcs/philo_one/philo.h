@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/11 16:47:15 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:13:03 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ typedef struct			s_philo
 	t_data				*data;
 	int					is_eating;
 	unsigned long int	last_eat;
+	int					*fork_l_i;
+	int					*fork_r_i;
+	pthread_mutex_t		*fork_l;
+	pthread_mutex_t		*fork_r;
 	int					nbr_of_lunch;
 	struct timeval		*c_time_start;
 	struct s_philo		*next;
@@ -55,4 +59,5 @@ void					init_philos(t_philo **philos, struct timeval *c_time_start,  int nbr);
 void					display_state(t_philo *phi);
 void					ft_eat(t_philo *phi);
 void					ft_sleep(t_philo *phi);
+int						ft_usleep(unsigned long int time, t_philo *phi);
 #endif

@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/11 16:47:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:16:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ void
 		phi->nbr_of_lunch = 0;
 		phi->data = data;
 		phi->next = NULL;
+		if (phi->id == 0)
+		{
+			phi->fork_l_i = &data->forks_status[data->nbr - 1];
+			phi->fork_l = &data->forks[data->nbr - 1];
+		}
+		else
+		{
+			phi->fork_l_i = &data->forks_status[phi->id - 1];
+			phi->fork_l = &data->forks[phi->id - 1];
+		}
+		phi->fork_r_i = &data->forks_status[phi->id];
+		phi->fork_r = &data->forks[phi->id];
 		if (!*philos)
 			*philos = phi;
 		else

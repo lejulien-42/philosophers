@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/11 17:37:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/12 17:03:27 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,28 @@ static void
 }
 
 void
-	take_fork(t_philo *phi, int index)
+	take_l_fork(t_philo *phi)
 {
-	phi->data->forks_status[index] = 0;
-	pthread_mutex_lock(&phi->data->forks[index]);
+	*phi->fork_l_i = 0;
+	pthread_mutex_lock(phi->fork_l);
 	(phi->state == FORK) ? go_eat(phi) : go_fork(phi);
 }
 
 void
-	first(t_philo *phi)
+	take_r_fork(t_philo *phi)
 {
-	if (phi->data->forks_status[phi->data->nbr - 1])
-		take_fork(phi, phi->data->nbr - 1);
-	if (phi->data->forks_status[phi->id])
-		take_fork(phi, phi->id);
+	*phi->fork_r_i = 0;
+	pthread_mutex_lock(phi->fork_r);
+	(phi->state == FORK) ? go_eat(phi) : go_fork(phi);
 }
 
 void
-	others(t_philo *phi)
+	check_fork(t_philo *phi)
 {
-	if (phi->data->forks_status[phi->id - 1])
-		take_fork(phi, phi->id - 1);
-	if (phi->data->forks_status[phi->id])
-		take_fork(phi, phi->id);
+	if (*phi->fork_l_i)
+		take_l_fork(phi);
+	else if (*phi->fork_r_i)
+		take_r_fork(phi);
 }
 
 void
@@ -61,7 +60,7 @@ void
 	{
 		if (phi->state == DIED)
 			return ;
-		(phi->id == 0) ? first(phi) : others(phi);
+		check_fork(phi);
 	}
 }
 
@@ -84,18 +83,19 @@ void
 			ft_sleep(phi);
 	}
 	if (phi->state == DIED)
-	{
 		display_state(phi);
-		phi->data->is_a_dead_guy = 1;
-	}
 	return (NULL);
 }
 
 static int
 	check_death(t_philo *phi)
 {
-	if (phi->data->started && ft_get_ct(phi->data->c_time_start) - phi->last_eat > phi->data->time_to_die)
-		return ((int)(phi->state = DIED) + 1);
+	if (phi->data->started && ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
+	{
+		phi->state = DIED;
+		phi->data->is_a_dead_guy = 1;
+		return (1);
+	}
 	return (0);
 }
 
@@ -111,22 +111,20 @@ void
 
 	while (ptr)
 	{
+		gettimeofday(ptr->data->c_time_start, NULL);
+		ptr->data->started = 1;
 		pthread_create(&thread_id[i], NULL, philosopher, ptr);
 		ptr = ptr->next;
 		i++;
 	}
 	ptr = *philos;
-	usleep(510);
-	gettimeofday(ptr->data->c_time_start, NULL);
-	ptr->data->started = 1;
-	gettimeofday(ptr->data->c_time_start, NULL);
+	ft_usleep(500, ptr);
 	while ("non")
 	{
 		if (check_death(ptr))
 			break ;
 		ptr = ptr->next;
-		if (ptr == NULL)
-			ptr = *philos;
+		(ptr == NULL) ? (ptr = *philos) : NULL;
 	}
 	ptr = *philos;
 	i = 0;
