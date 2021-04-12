@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/12 17:50:38 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/12 17:59:43 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,8 @@ void
 	ft_usleep(800, ptr);
 	gettimeofday(ptr->data->c_time_start, NULL);
 	ptr->data->started = 1;
-	while (ptr->data->is_a_dead_guy)
+	while (!check_death(ptr))
 	{
-		if (check_death(ptr))
-			break ;
 		ptr = ptr->next;
 		(ptr == NULL) ? (ptr = *philos) : NULL;
 	}
