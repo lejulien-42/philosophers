@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/12 17:03:27 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/12 17:50:38 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void
 {
 	if (*phi->fork_l_i)
 		take_l_fork(phi);
-	else if (*phi->fork_r_i)
+	if (*phi->fork_r_i)
 		take_r_fork(phi);
 }
 
@@ -77,13 +77,16 @@ void
 	{
 		if (phi->state == THINK)
 			ft_think(phi);
-		if (phi->state == EAT)
+		else if (phi->state == EAT)
 			ft_eat(phi);
-		if (phi->state == SLEEP)
+		else if (phi->state == SLEEP)
 			ft_sleep(phi);
 	}
 	if (phi->state == DIED)
+	{
 		display_state(phi);
+		phi->data->is_a_dead_guy = 1;
+	}
 	return (NULL);
 }
 
@@ -93,7 +96,6 @@ static int
 	if (phi->data->started && ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
 	{
 		phi->state = DIED;
-		phi->data->is_a_dead_guy = 1;
 		return (1);
 	}
 	return (0);
@@ -111,15 +113,15 @@ void
 
 	while (ptr)
 	{
-		gettimeofday(ptr->data->c_time_start, NULL);
-		ptr->data->started = 1;
 		pthread_create(&thread_id[i], NULL, philosopher, ptr);
 		ptr = ptr->next;
 		i++;
 	}
 	ptr = *philos;
-	ft_usleep(500, ptr);
-	while ("non")
+	ft_usleep(800, ptr);
+	gettimeofday(ptr->data->c_time_start, NULL);
+	ptr->data->started = 1;
+	while (ptr->data->is_a_dead_guy)
 	{
 		if (check_death(ptr))
 			break ;
