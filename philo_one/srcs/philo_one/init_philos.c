@@ -6,12 +6,24 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/13 18:12:01 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/13 19:26:17 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int
+	ft_check_death(t_philo *phi)
+{
+	if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
+	{
+		pthread_mutex_unlock(phi->fork_l);
+		pthread_mutex_unlock(phi->fork_r);
+		phi->state = DIED;
+		return (1);
+	}
+	return (0);
+}
 
 static void
 	go_eat(t_philo *phi)
@@ -44,9 +56,15 @@ void
 void
 	check_fork(t_philo *phi)
 {
+	if (ft_check_death(phi))
+		return ;
 	take_r_fork(phi);
 	if (phi->data->nbr != 1)
+	{
+		if (ft_check_death(phi))
+			return ;
 		take_l_fork(phi);
+	}
 	else
 		ft_usleep(phi->data->time_to_die + 1, phi);
 }
@@ -113,8 +131,8 @@ void
 	}
 	ptr = *philos;
 	ft_usleep(500, ptr);
-	ptr->data->started = 1;
 	gettimeofday(ptr->data->c_time_start, NULL);
+	ptr->data->started = 1;
 	while (!check_death(ptr))
 	{
 		ptr = ptr->next;
