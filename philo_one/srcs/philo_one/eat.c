@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:44:08 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/12 16:35:54 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/13 14:31:05 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int
 	now = ft_get_ct(phi->data->c_time_start);
 	while (!phi->data->is_a_dead_guy && ft_get_ct(phi->data->c_time_start) - now < time)
 	{
-		usleep(100);
+		usleep(10);
 		if (phi->state == DIED)
 			return (1);
 	}
