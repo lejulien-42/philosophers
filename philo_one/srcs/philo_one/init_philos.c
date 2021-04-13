@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/12 17:59:43 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/13 18:12:01 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void
 void
 	take_l_fork(t_philo *phi)
 {
-	*phi->fork_l_i = 0;
 	pthread_mutex_lock(phi->fork_l);
 	(phi->state == FORK) ? go_eat(phi) : go_fork(phi);
 }
@@ -38,7 +37,6 @@ void
 void
 	take_r_fork(t_philo *phi)
 {
-	*phi->fork_r_i = 0;
 	pthread_mutex_lock(phi->fork_r);
 	(phi->state == FORK) ? go_eat(phi) : go_fork(phi);
 }
@@ -46,22 +44,23 @@ void
 void
 	check_fork(t_philo *phi)
 {
-	if (*phi->fork_l_i)
+	take_r_fork(phi);
+	if (phi->data->nbr != 1)
 		take_l_fork(phi);
-	if (*phi->fork_r_i)
-		take_r_fork(phi);
+	else
+		ft_usleep(phi->data->time_to_die + 1, phi);
 }
 
 void
-	ft_think(t_philo *phi)
+	ft_think(void *ptr)
 {
-	(phi->state == THINK) ? display_state(phi) : NULL;
-	while (phi->state != EAT)
-	{
-		if (phi->state == DIED)
-			return ;
-		check_fork(phi);
-	}
+	t_philo *phi;
+
+	phi = (t_philo *)ptr;
+	display_state(phi);
+	if (phi->state == DIED)
+		return ;
+	check_fork(phi);
 }
 
 void
@@ -70,17 +69,12 @@ void
 	t_philo	*phi;
 
 	phi = (t_philo *)philos;
-	(phi->id % 2 == 0) ? (phi->state = SLEEP) : (phi->state = THINK);
+	phi->state = (phi->id % 2 == 0) ? SLEEP : THINK;
 	while (!phi->data->started)
 		phi->last_eat = 0;
 	while (phi->state != DIED && !phi->data->is_a_dead_guy)
 	{
-		if (phi->state == THINK)
-			ft_think(phi);
-		else if (phi->state == EAT)
-			ft_eat(phi);
-		else if (phi->state == SLEEP)
-			ft_sleep(phi);
+		phi->data->routine[phi->state](phi);
 	}
 	if (phi->state == DIED)
 	{
@@ -93,7 +87,7 @@ void
 static int
 	check_death(t_philo *phi)
 {
-	if (phi->data->started && ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
+	if (ft_get_ct(phi->data->c_time_start) - phi->last_eat >= phi->data->time_to_die)
 	{
 		phi->state = DIED;
 		return (1);
@@ -118,9 +112,9 @@ void
 		i++;
 	}
 	ptr = *philos;
-	ft_usleep(800, ptr);
-	gettimeofday(ptr->data->c_time_start, NULL);
+	ft_usleep(500, ptr);
 	ptr->data->started = 1;
+	gettimeofday(ptr->data->c_time_start, NULL);
 	while (!check_death(ptr))
 	{
 		ptr = ptr->next;
