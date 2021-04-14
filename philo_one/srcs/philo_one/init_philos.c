@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 16:04:47 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 16:29:14 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void
 		display_state(phi);
 		phi->data->is_a_dead_guy = 1;
 	}
+	pthread_mutex_unlock(phi->fork_l);
+	pthread_mutex_unlock(phi->fork_r);
 	return (NULL);
 }
 
@@ -42,7 +44,7 @@ static void
 	while (1)
 	{
 		if (ft_get_ct(phi->data->c_time_start) -
-				phi->last_eat > phi->data->time_to_die)
+				phi->last_eat >= phi->data->time_to_die)
 		{
 			if (phi->state == THINK)
 			{
