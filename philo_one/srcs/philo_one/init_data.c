@@ -6,11 +6,17 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 15:03:36 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 15:10:35 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:22:44 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int
+	check_data(int ac, char **av)
+{
+	return (0);
+}
 
 static void
 	init_data_helper(t_data *data, int ac, char **av)
@@ -37,7 +43,7 @@ t_data
 	int		i;
 
 	i = 0;
-	if (!(data = malloc(sizeof(t_data))))
+	if (!(data = malloc(sizeof(t_data))) || check_data(ac, av))
 		return (NULL);
 	if (!(data->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t))))
 		return (NULL);
