@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/04 16:58:52 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 16:29:14 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 17:08:53 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void
 		phi->last_eat = 0;
 	while (phi->state != DIED && !phi->data->is_a_dead_guy)
 	{
-		phi->data->routine[phi->state](phi);
+		if (phi->state != FORK)
+			phi->data->routine[phi->state](phi);
 	}
 	if (phi->state == DIED)
 	{
@@ -46,7 +47,7 @@ static void
 		if (ft_get_ct(phi->data->c_time_start) -
 				phi->last_eat >= phi->data->time_to_die)
 		{
-			if (phi->state == THINK)
+			if (phi->state == THINK || phi->state == FORK)
 			{
 				phi->state = DIED;
 				display_state(phi);
@@ -80,7 +81,7 @@ void
 		i++;
 	}
 	ptr = *philos;
-	ft_usleep(1000, ptr);
+	ft_usleep(1999, ptr);
 	ptr->data->started = 1;
 	gettimeofday(ptr->data->c_time_start, NULL);
 	check_death(philos);
