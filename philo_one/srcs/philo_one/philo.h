@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 14:48:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:15:58 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,8 @@ void					ft_sleep(void *phi);
 int						ft_usleep(unsigned long int time, t_philo *phi);
 void					ft_think(void *phi);
 void					check_fork(t_philo *phi);
+t_data					*init_data(int ac, char **av,
+						struct timeval *c_time_start);
+void					gen_philos(int ac, char **av, t_philo **philos,
+						t_data *data);
 #endif
