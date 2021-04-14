@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/13 18:02:39 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 14:52:55 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static t_data
 	data->routine[EAT] = ft_eat;
 	data->routine[SLEEP] = ft_sleep;
 	data->routine[THINK] = ft_think;
+	data->phi_filled = 0;
 	data->nbr = ft_atoi(av[1]);
 	data->time_to_die = ft_atouli(av[2]);
 	data->time_to_eat = ft_atouli(av[3]);

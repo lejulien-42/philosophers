@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 14:02:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/13 19:27:00 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 14:43:26 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void
 	if (!ptr->data->is_a_dead_guy && ptr->state == THINK)
 		printf("\033[0;33m[%ld] %d is thinking\n\033[0;37m", time, ptr->id + 1);
 	if (!ptr->data->is_a_dead_guy && ptr->state == FORK)
-		printf("\033[0;37m[%ld] %d has taken a fork\n\033[0;37m", time, ptr->id + 1);
+		printf("\033[0;37m[%ld] %d has taken a fork\n\033[0;37m",
+				time, ptr->id + 1);
 }

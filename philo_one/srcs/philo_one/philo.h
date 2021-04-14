@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/13 18:02:34 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/14 14:48:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct			s_data
 	unsigned long int	time_to_eat;
 	unsigned long int	time_to_sleep;
 	int					max_launch;
+	int					phi_filled;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		data_access;
 	int					*forks_status;
@@ -57,10 +58,12 @@ typedef struct			s_philo
 }						t_philo;
 
 unsigned long int		ft_get_ct(struct timeval *c_time_start);
-void					init_philos(t_philo **philos, struct timeval *c_time_start,  int nbr);
+void					init_philos(t_philo **philos,
+						struct timeval *c_time_start, int nbr);
 void					display_state(t_philo *phi);
 void					ft_eat(void *phi);
 void					ft_sleep(void *phi);
 int						ft_usleep(unsigned long int time, t_philo *phi);
 void					ft_think(void *phi);
+void					check_fork(t_philo *phi);
 #endif
