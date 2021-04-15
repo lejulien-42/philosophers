@@ -6,11 +6,12 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/05 18:43:38 by lejulien          #+#    #+#              #
-#    Updated: 2021/04/14 17:01:26 by lejulien         ###   ########.fr        #
+#    Updated: 2021/04/15 10:53:29 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-UTILS = ./srcs/utils/ft_atoi.c
+UTILS = ./srcs/utils/ft_atoi.c ./srcs/utils/ft_itoa.c \
+		./srcs/utils/ft_strcmp.c
 
 SRCS = 	./srcs/philo_one/main.c ./srcs/philo_one/init_philos.c \
 		./srcs/philo_one/display.c ./srcs/philo_one/eat.c \
@@ -20,7 +21,7 @@ SRCS = 	./srcs/philo_one/main.c ./srcs/philo_one/init_philos.c \
 SRCS_OBJS = ${SRCS:.c=.o}
 UTILS_OBJS = ${UTILS:.c=.o}
 
-FLAGS = -Wall -Wextra -Werror -lpthread -g
+FLAGS = -Wall -Wextra -Werror -lpthread
 
 .c.o:
 	gcc -c $< -o $(<:.c=.o)

@@ -6,15 +6,67 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 15:03:36 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 15:22:44 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/15 10:55:23 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include "../utils/utils.h"
+
+static int
+	check_int(char **av, int index)
+{
+	int		test_i;
+	char	*test;
+
+	test_i = ft_atoi(av[index]);
+	test = ft_itoa(test_i);
+	if (ft_strcmp(av[index], test))
+	{
+		free(test);
+		return (1);
+	}
+	free(test);
+	return (0);
+}
+
+static int
+	check_uli(char **av, int index)
+{
+	int		test_i;
+	char	*test;
+
+	test_i = ft_atouli(av[index]);
+	test = ft_ulitoa(test_i);
+	if (ft_strcmp(av[index], test))
+	{
+		free(test);
+		return (1);
+	}
+	free(test);
+	return (0);
+}
 
 static int
 	check_data(int ac, char **av)
 {
+	if (check_int(av, 1))
+		return (1);
+	if (ft_atoi(av[1]) < 1)
+		return (1);
+	if (check_uli(av, 2))
+		return (1);
+	if (check_uli(av, 3))
+		return (1);
+	if (check_uli(av, 4))
+		return (1);
+	if (ac == 6)
+	{
+		if (check_int(av, 5))
+			return (1);
+		if (ft_atoi(av[5]) < 1)
+			return (1);
+	}
 	return (0);
 }
 
@@ -43,7 +95,7 @@ t_data
 	int		i;
 
 	i = 0;
-	if (!(data = malloc(sizeof(t_data))) || check_data(ac, av))
+	if (check_data(ac, av) || !(data = malloc(sizeof(t_data))))
 		return (NULL);
 	if (!(data->forks = malloc(ft_atoi(av[1]) * sizeof(pthread_mutex_t))))
 		return (NULL);

@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/03 15:42:26 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/15 10:54:39 by lejulien         ###   ########.fr       */
+/*   Created: 2021/03/31 15:46:04 by lejulien          #+#    #+#             */
+/*   Updated: 2021/04/15 10:58:32 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+int		ft_strcmp(char *s1, char *s2)
+{
+	int index;
 
-int					ft_atoi(char *str);
-unsigned long int	ft_atouli(char *str);
-char				*ft_itoa(int n);
-char				*ft_ulitoa(unsigned long int n);
-int					ft_strcmp(char *s1, char *s2);
-#endif
+	index = 0;
+	while (s2[index] && s1[index])
+	{
+		if (s1[index] == s2[index])
+			index++;
+		else
+			return (1);
+	}
+	if (s1[index] == '\0' && s2[index] == '\0')
+		return (0);
+	return (1);
+}
