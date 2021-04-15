@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 15:03:36 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/15 10:55:23 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/15 11:11:19 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int
 	int		test_i;
 	char	*test;
 
+	if (av[index][0] == '-')
+		return (1);
 	test_i = ft_atouli(av[index]);
 	test = ft_ulitoa(test_i);
 	if (ft_strcmp(av[index], test))

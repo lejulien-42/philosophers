@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 10:35:00 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/15 10:41:45 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/15 11:15:45 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,3 @@ char		*ft_ulitoa(unsigned long int n)
 		iszero++;
 	return (ft_itoa2(iszero, nu, i));
 }
-

@@ -6,7 +6,7 @@
 /*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 15:14:51 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/15 14:19:27 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ int
 	return (1);
 }
 
+static int
+	print_usage(void)
+{
+	write(2, "Usage : ./philo_one nbr_of_philos time_to_die time_", 51);
+	write(2, "to_eat time_to_sleep [minimum_eat_for_each_philos]\n", 51);
+	return (1);
+}
+
 int
 	main(int ac, char **av)
 {
@@ -50,7 +58,8 @@ int
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		data = init_data(ac, av, &c_time_start);
+		if (!(data = init_data(ac, av, &c_time_start)))
+			return (print_usage());
 		gen_philos(ac, av, &philos, data);
 		if (philos == NULL)
 			return (free_philos(&philos));
@@ -60,9 +69,6 @@ int
 		free_philos(&philos);
 	}
 	else
-	{
-		printf("Usage : ./philo_one nbr_of_philos time_to_die time_to_eat");
-		printf(" time_to_sleep [minimum_eat_for_each_philos]\n");
-	}
+		return (print_usage());
 	return (0);
 }
