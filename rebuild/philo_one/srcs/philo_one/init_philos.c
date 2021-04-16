@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 17:30:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/16 18:22:47 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void
 
 	phi = (t_philo *)philos;
 	phi->state = (phi->id % 2 == 0) ? SLEEP : THINK;
+	usleep(500);
 	while (!phi->data->is_dead && phi->state != DIED)
 		phi->data->routine[phi->state](phi);
 	if (phi->state == DIED)
@@ -72,6 +73,7 @@ void
 		gettimeofday(&philos[i].start, NULL);
 		pthread_create(&origin[i], NULL, philosopher, &philos[i]);
 	}
+	usleep(2000);
 	check_death(philos);
 	i = -1;
 	while (++i < philos->data->nbr)
