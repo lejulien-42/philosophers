@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 16:46:05 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 17:35:08 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void
 		display_state(phi);
 		phi->data->is_dead = 1;
 	}
-	sem_post(phi->data->forks);
 	sem_post(phi->data->forks);
 	return (NULL);
 }

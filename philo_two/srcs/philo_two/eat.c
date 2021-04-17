@@ -6,17 +6,11 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:32:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 16:54:13 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 17:27:13 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void
-	ft_r_fork(t_philo *phi)
-{
-	sem_post(phi->data->forks);
-}
 
 void
 	ft_eat(void *ptr)
@@ -32,10 +26,10 @@ void
 	phi->last_eat = ft_get_ct(&phi->start);
 	if (ft_usleep(phi->data->time_to_eat, phi))
 	{
-		ft_r_fork(phi);
+		sem_post(phi->data->forks);
 		return ;
 	}
-	ft_r_fork(phi);
+	sem_post(phi->data->forks);
 	phi->state = SLEEP;
 }
 
@@ -43,7 +37,6 @@ void
 	ft_sleep(void *ptr)
 {
 	t_philo				*phi;
-	unsigned long int	start;
 
 	phi = (t_philo *)ptr;
 	display_state(phi);
