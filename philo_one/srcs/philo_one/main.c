@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/02 13:42:30 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 16:20:14 by lejulien         ###   ########.fr       */
+/*   Created: 2021/04/16 13:48:19 by lejulien          #+#    #+#             */
+/*   Updated: 2021/04/16 16:58:37 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-unsigned long int
-	ft_get_ct(struct timeval *c_time_start)
-{
-	struct timeval	c_time_now;
-
-	gettimeofday(&c_time_now, NULL);
-	return (((c_time_now.tv_sec * 1000000 + c_time_now.tv_usec) -
-			(c_time_start->tv_sec * 1000000 + c_time_start->tv_usec)) / 1000);
-}
-
-int
-	free_philos(t_philo **philos)
-{
-	t_philo			*ptr;
-	t_philo			*tmp;
-
-	ptr = *philos;
-	if (!*philos)
-		return (1);
-	while (ptr)
-	{
-		tmp = ptr->next;
-		free(ptr);
-		ptr = tmp;
-	}
-	return (1);
-}
 
 static int
 	print_usage(void)
@@ -48,25 +20,38 @@ static int
 	return (1);
 }
 
+static void
+	free_data(t_data *data, char **av)
+{
+	int	i;
+
+	i = -1;
+	while (++i < ft_atoi(av[1]))
+		pthread_mutex_destroy(&data->forks[i]);
+	free(data->forks);
+	pthread_mutex_destroy(&data->write_access);
+	free(data);
+}
+
 int
 	main(int ac, char **av)
 {
-	t_philo			*philos;
-	t_data			*data;
-	struct timeval	c_time_start;
+	t_philo	*philos;
+	t_data	*data;
 
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if (!(data = init_data(ac, av, &c_time_start)))
+		if (!(data = init_data(ac, av)))
 			return (print_usage());
-		gen_philos(ac, av, &philos, data);
-		if (philos == NULL)
-			return (free_philos(&philos));
-		init_philos(&philos, &c_time_start, ft_atoi(av[2]));
-		free(data->forks);
-		free(data);
-		free_philos(&philos);
+		if (!(philos = gen_philos(ac, av, data)))
+		{
+			free_data(data, av);
+			return (print_usage());
+		}
+		init_philos(philos);
+		free_data(data, av);
+		free(philos);
 	}
 	else
 		return (print_usage());

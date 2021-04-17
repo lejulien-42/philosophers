@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lejulien <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/02 13:44:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/14 15:15:58 by lejulien         ###   ########.fr       */
+/*   Created: 2021/04/16 13:48:57 by lejulien          #+#    #+#             */
+/*   Updated: 2021/04/17 15:56:54 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
-# define DIED	0
-# define EAT	1
-# define SLEEP	2
-# define THINK	3
-# define FORK	4
+# define EAT	0
+# define SLEEP	1
+# define THINK	2
+# define DIED	3
 
 typedef struct			s_data
 {
@@ -33,41 +32,31 @@ typedef struct			s_data
 	int					max_launch;
 	int					phi_filled;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		data_access;
-	int					*forks_status;
-	int					is_a_dead_guy;
-	int					started;
-	struct timeval		*c_time_start;
-	void				(*routine[5])(void *);
+	pthread_mutex_t		write_access;
+	int					is_dead;
+	void				(*routine[4])(void *);
 }						t_data;
 
 typedef struct			s_philo
 {
 	int					id;
 	int					state;
+	struct timeval		start;
 	t_data				*data;
-	int					is_eating;
-	unsigned long int	last_eat;
-	int					*fork_l_i;
-	int					*fork_r_i;
 	pthread_mutex_t		*fork_l;
 	pthread_mutex_t		*fork_r;
-	int					nbr_of_lunch;
-	struct timeval		*c_time_start;
-	struct s_philo		*next;
+	int					nbr_of_eats;
+	unsigned long int	last_eat;
 }						t_philo;
 
-unsigned long int		ft_get_ct(struct timeval *c_time_start);
-void					init_philos(t_philo **philos,
-						struct timeval *c_time_start, int nbr);
-void					display_state(t_philo *phi);
-void					ft_eat(void *phi);
-void					ft_sleep(void *phi);
+t_data					*init_data(int ac, char **av);
+t_philo					*gen_philos(int ac, char **av, t_data *data);
+unsigned long int		ft_get_ct(struct timeval *start);
+void					init_philos(t_philo *philos);
+void					display_state(t_philo *ptr);
 int						ft_usleep(unsigned long int time, t_philo *phi);
-void					ft_think(void *phi);
+void					ft_eat(void *ptr);
+void					ft_sleep(void *ptr);
+void					ft_think(void *ptr);
 void					check_fork(t_philo *phi);
-t_data					*init_data(int ac, char **av,
-						struct timeval *c_time_start);
-void					gen_philos(int ac, char **av, t_philo **philos,
-						t_data *data);
 #endif
