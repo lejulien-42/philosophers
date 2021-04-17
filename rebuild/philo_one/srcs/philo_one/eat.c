@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:32:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 17:47:21 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:00:39 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,6 @@ void
 	if (phi->state == DIED)
 		return ;
 	check_fork(phi);
+	if (!(phi->state == DIED))
+		phi->state = EAT;
 }

@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:59:19 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 15:17:35 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:52:51 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_philo
 	*gen_philos(int ac, char **av, t_data *data)
 {
-	int	i;
+	int		i;
 	t_philo	*philos;
 
 	if (!(philos = malloc(ft_atoi(av[1]) * sizeof(t_philo))))

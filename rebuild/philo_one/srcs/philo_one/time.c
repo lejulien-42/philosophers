@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:42:27 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 17:40:33 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:52:31 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ unsigned long int
 }
 
 int
-	ft_usleep(unsigned long int time, t_philo * phi)
+	ft_usleep(unsigned long int time, t_philo *phi)
 {
 	unsigned long int	now;
 

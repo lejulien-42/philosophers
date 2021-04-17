@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:48:57 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/16 17:53:01 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:56:54 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ typedef struct			s_philo
 	unsigned long int	last_eat;
 }						t_philo;
 
-t_data				*init_data(int ac, char **av);
-t_philo				*gen_philos(int ac, char **av, t_data *data);
-unsigned long int	ft_get_ct(struct timeval *start);
-void				init_philos(t_philo *philos);
-void				display_state(t_philo *ptr);
-int					ft_usleep(unsigned long int time, t_philo * phi);
-void				ft_eat(void *ptr);
-void				ft_sleep(void *ptr);
-void				ft_think(void *ptr);
-void				check_fork(t_philo *phi);
+t_data					*init_data(int ac, char **av);
+t_philo					*gen_philos(int ac, char **av, t_data *data);
+unsigned long int		ft_get_ct(struct timeval *start);
+void					init_philos(t_philo *philos);
+void					display_state(t_philo *ptr);
+int						ft_usleep(unsigned long int time, t_philo *phi);
+void					ft_eat(void *ptr);
+void					ft_sleep(void *ptr);
+void					ft_think(void *ptr);
+void					check_fork(t_philo *phi);
 #endif
