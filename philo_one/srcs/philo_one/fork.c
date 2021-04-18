@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:48:17 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 15:57:20 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/18 12:22:43 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void
 	if (!phi->data->is_dead)
 	{
 		pthread_mutex_lock(&phi->data->write_access);
-		printf("%ld %d is taking a fork\n", ft_get_ct(&phi->start),
+		printf("%ld %d has taken a fork\n", ft_get_ct(&phi->start),
 				phi->id + 1);
 		pthread_mutex_unlock(&phi->data->write_access);
 	}
