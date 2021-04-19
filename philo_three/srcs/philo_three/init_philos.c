@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/19 17:37:16 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 17:50:28 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void
 	usleep(2000);
 	while (1)
 	{
-		if (ft_get_ct(&phi->start) - phi->last_eat + 50 >
-				phi->data->time_to_die + 49)
+		if (ft_get_ct(&phi->start) - phi->last_eat + 1000 >
+				phi->data->time_to_die - 999)
 		{
 			if (phi->state == THINK)
 			{
