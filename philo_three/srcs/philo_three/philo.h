@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:48:57 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 16:51:58 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:53:58 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct			s_data
 	unsigned long int	time_to_eat;
 	unsigned long int	time_to_sleep;
 	int					max_launch;
-	int					phi_filled;
+	sem_t				*phi_filled;
 	sem_t				*forks;
 	sem_t				*write_access;
 	int					is_dead;

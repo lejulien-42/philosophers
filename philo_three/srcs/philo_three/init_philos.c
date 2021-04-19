@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/18 16:52:22 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:58:09 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,50 @@ static void
 }
 
 static void
-	check_death(t_philo *phi)
+	*check_death(void *ptr)
+{
+	t_philo *phi;
+
+	phi = (t_philo *)ptr;
+	while (1)
+	{
+		if (ft_get_ct(&phi->start) - phi->last_eat + 5 >
+				phi->data->time_to_die + 4)
+		{
+			if (phi->state == THINK)
+			{
+				phi->state = DIED;
+				display_state(phi);
+				phi->state = THINK;
+				phi->data->is_dead = 1;
+			}
+			else
+				phi->state = DIED;
+			return (NULL);
+		}
+	}
+}
+
+static void
+	monitor_sim(pid_t *origin, t_philo *philos)
 {
 	int	i;
 
 	i = 0;
-	while (1)
+	while (i < philos->data->nbr)
 	{
-		if (ft_get_ct(&phi[i].start) - phi[i].last_eat + 5 >
-			phi->data->time_to_die + 4)
-		{
-			if (phi[i].state == THINK)
-			{
-				phi[i].state = DIED;
-				display_state(&phi[i]);
-				phi[i].state = THINK;
-				phi->data->is_dead = 1;
-			}
-			else
-				phi[i].state = DIED;
-			break ;
-		}
-		if (phi->data->phi_filled == phi->data->nbr)
-			phi->data->is_dead = 1;
+		sem_wait(philos->data->phi_filled);
 		i++;
-		if (i == phi->data->nbr)
-			i = 0;
 	}
+	printf("--------------------------------------------------------------kill all\n");
 }
 
 void
 	init_philos(t_philo *philos)
 {
 	int		i;
-	pid_t	origin[philos->data->nbr];
+	pid_t		origin[philos->data->nbr];
+	pthread_t	monitors[philos->data->nbr];
 
 	i = -1;
 	while (++i < philos->data->nbr)
@@ -73,11 +83,11 @@ void
 		if ((origin[i] = fork()) == 0)
 		{
 			gettimeofday(&philos[i].start, NULL);
+			pthread_create(&monitors[i], NULL, check_death, &philos[i]);
 			philosopher(&philos[i]);
 			exit(0);
 		}
 	}
-	usleep(2000);
-	check_death(philos);
-	i = -1;
+	usleep(500);
+	monitor_sim(origin, philos);
 }
