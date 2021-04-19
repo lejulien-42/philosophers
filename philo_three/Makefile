@@ -6,7 +6,7 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/05 18:43:38 by lejulien          #+#    #+#              #
-#    Updated: 2021/04/18 12:24:11 by lejulien         ###   ########.fr        #
+#    Updated: 2021/04/19 16:32:03 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS = 	./srcs/philo_three/main.c ./srcs/philo_three/init_data.c \
 SRCS_OBJS = ${SRCS:.c=.o}
 UTILS_OBJS = ${UTILS:.c=.o}
 
-FLAGS = -Wall -Wextra -Werror -lpthread -g3
+FLAGS = -Wall -Wextra -Werror -lpthread
 
 .c.o:
 	gcc -c $< -o $(<:.c=.o)

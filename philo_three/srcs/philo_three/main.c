@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:48:19 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 16:49:27 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 17:09:58 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ static void
 	sem_close(data->forks);
 	sem_unlink("forks");
 	sem_close(data->write_access);
+	sem_unlink("write_access");
+	sem_close(data->phi_filled);
+	sem_unlink("write_access");
+	sem_close(data->start);
 	sem_unlink("write_access");
 	free(data);
 }

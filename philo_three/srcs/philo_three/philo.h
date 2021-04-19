@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:48:57 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/19 15:53:58 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 16:27:05 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <signal.h>
 # define EAT	0
 # define SLEEP	1
 # define THINK	2
@@ -35,6 +37,7 @@ typedef struct			s_data
 	int					max_launch;
 	sem_t				*phi_filled;
 	sem_t				*forks;
+	sem_t				*start;
 	sem_t				*write_access;
 	int					is_dead;
 	void				(*routine[4])(void *);

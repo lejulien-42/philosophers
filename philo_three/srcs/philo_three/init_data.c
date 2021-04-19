@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:07:28 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/19 15:54:01 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/19 16:27:36 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ static void
 	data->routine[THINK] = ft_think;
 	data->nbr = ft_atoi(av[1]);
 	sem_unlink("phi_filled");
+	sem_unlink("start");
 	data->phi_filled = sem_open("phi_filled", O_CREAT | O_EXCL, 0644, 0);
+	data->start = sem_open("start", O_CREAT | O_EXCL, 0644, 0);
 	data->time_to_die = ft_atouli(av[2]);
 	data->time_to_eat = ft_atouli(av[3]);
 	data->time_to_sleep = ft_atouli(av[4]);
