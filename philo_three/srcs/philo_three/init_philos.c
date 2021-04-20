@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/20 17:58:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/20 18:00:43 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void
 	while (phi->data->nbr)
 	{
 		if (ft_get_ct(&phi->start) - phi->last_eat >
-				phi->data->time_to_die && phi->state != EAT)
+			phi->data->time_to_die && (phi->state != EAT ||
+			phi->data->time_to_die < phi->data->time_to_eat))
 		{
 			if (phi->state == THINK)
 			{
