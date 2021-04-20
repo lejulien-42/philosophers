@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/19 17:50:28 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/20 17:58:06 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static void
 	t_philo *phi;
 
 	phi = (t_philo *)ptr;
-	usleep(2000);
-	while (1)
+	usleep(1000);
+	while (phi->data->nbr)
 	{
-		if (ft_get_ct(&phi->start) - phi->last_eat + 1000 >
-				phi->data->time_to_die - 999)
+		if (ft_get_ct(&phi->start) - phi->last_eat >
+				phi->data->time_to_die && phi->state != EAT)
 		{
 			if (phi->state == THINK)
 			{
@@ -36,6 +36,7 @@ static void
 			return (NULL);
 		}
 	}
+	return (NULL);
 }
 
 static void

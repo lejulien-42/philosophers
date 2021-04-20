@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 13:48:57 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/19 16:27:05 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/20 17:19:55 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,6 @@ void					ft_eat(void *ptr);
 void					ft_sleep(void *ptr);
 void					ft_think(void *ptr);
 void					check_fork(t_philo *phi);
+void					display_helper(unsigned long int time, int id,
+						char *str);
 #endif
