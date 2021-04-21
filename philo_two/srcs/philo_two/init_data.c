@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 14:07:28 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 17:33:36 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:32:23 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int
 	char	*test;
 
 	test_i = ft_atoi(av[index]);
+	if (test_i > 100000)
+		return (1);
 	test = ft_itoa(test_i);
 	if (ft_strcmp(av[index], test))
 	{

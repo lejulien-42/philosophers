@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:48:17 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/21 15:55:35 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:52:12 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void
 		display_helper(ft_get_ct(&phi->start), phi->id + 1, "has taken a fork");
 	sem_post(phi->data->write_access);
 }
-
 
 void
 	check_fork(t_philo *phi)

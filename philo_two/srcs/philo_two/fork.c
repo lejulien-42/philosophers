@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:48:17 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/18 12:23:06 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:48:54 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void
 	}
 	sem_post(phi->data->write_access);
 }
-
 
 void
 	check_fork(t_philo *phi)

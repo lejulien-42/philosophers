@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/21 17:21:07 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:53:00 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static void
 static void
 	*philosopher(void *philos)
 {
-	t_philo	*phi;
+	t_philo		*phi;
 	pthread_t	monitors;
-	int		i;
+	int			i;
 
 	phi = (t_philo *)philos;
 	phi->state = (phi->id % 2 == 0) ? SLEEP : THINK;
@@ -88,7 +88,7 @@ void
 	init_philos(t_philo *philos)
 {
 	int		i;
-	pid_t		origin[philos->data->nbr];
+	pid_t	origin[philos->data->nbr];
 
 	i = -1;
 	while (++i < philos->data->nbr)

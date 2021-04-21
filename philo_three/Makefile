@@ -6,7 +6,7 @@
 #    By: lejulien <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/05 18:43:38 by lejulien          #+#    #+#              #
-#    Updated: 2021/04/19 16:32:03 by lejulien         ###   ########.fr        #
+#    Updated: 2021/04/21 17:54:50 by lejulien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ UTILS = ./srcs/utils/ft_atoi.c ./srcs/utils/ft_itoa.c \
 SRCS = 	./srcs/philo_three/main.c ./srcs/philo_three/init_data.c \
 		./srcs/philo_three/gen_philos.c ./srcs/philo_three/init_philos.c \
 		./srcs/philo_three/time.c ./srcs/philo_three/display.c \
-		./srcs/philo_three/eat.c ./srcs/philo_three/fork.c
+		./srcs/philo_three/eat.c ./srcs/philo_three/fork.c \
+		./srcs/philo_three/display2.c
 
 SRCS_OBJS = ${SRCS:.c=.o}
 UTILS_OBJS = ${UTILS:.c=.o}

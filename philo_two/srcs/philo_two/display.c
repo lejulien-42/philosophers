@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:13:20 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 17:35:43 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:41:37 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void
 	if (ptr->state == DIED)
 	{
 		ptr->data->is_dead = 1;
-		printf("%ld %d has died\n", time, ptr->id + 1);
+		printf("%ld %d died\n", time, ptr->id + 1);
 	}
 	if (ptr->state == EAT)
 		printf("%ld %d is eating\n", time, ptr->id + 1);
