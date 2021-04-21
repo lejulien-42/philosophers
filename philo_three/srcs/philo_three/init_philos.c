@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/20 18:00:43 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 13:45:11 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void
 	t_philo *phi;
 
 	phi = (t_philo *)ptr;
+	sem_wait(phi->data->start);
 	usleep(1000);
 	while (phi->data->nbr)
 	{
@@ -70,7 +71,7 @@ static void
 	int	i;
 
 	i = -1;
-	while (++i < philos->data->nbr)
+	while (++i < philos->data->nbr * 2)
 		sem_post(philos->data->start);
 	i = -1;
 	while (++i < philos->data->nbr)
