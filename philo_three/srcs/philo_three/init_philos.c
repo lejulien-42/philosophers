@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:24:12 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/21 13:45:11 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:21:07 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ static void
 	t_philo *phi;
 
 	phi = (t_philo *)ptr;
-	sem_wait(phi->data->start);
-	usleep(1000);
-	while (phi->data->nbr)
+	gettimeofday(&phi->start, NULL);
+	phi->last_eat = ft_get_ct(&phi->start);
+	while (!phi->data->is_dead)
 	{
+		usleep(1000);
 		if (ft_get_ct(&phi->start) - phi->last_eat >
 			phi->data->time_to_die && (phi->state != EAT ||
 			phi->data->time_to_die < phi->data->time_to_eat))
@@ -45,13 +46,15 @@ static void
 	*philosopher(void *philos)
 {
 	t_philo	*phi;
+	pthread_t	monitors;
 	int		i;
 
 	phi = (t_philo *)philos;
 	phi->state = (phi->id % 2 == 0) ? SLEEP : THINK;
 	sem_wait(phi->data->start);
+	pthread_create(&monitors, NULL, check_death, philos);
 	gettimeofday(&phi->start, NULL);
-	while (!phi->data->is_dead && phi->state != DIED)
+	while (phi->state != DIED && !phi->data->is_dead)
 		phi->data->routine[phi->state](phi);
 	if (phi->state == DIED)
 	{
@@ -71,7 +74,7 @@ static void
 	int	i;
 
 	i = -1;
-	while (++i < philos->data->nbr * 2)
+	while (++i < philos->data->nbr + 1)
 		sem_post(philos->data->start);
 	i = -1;
 	while (++i < philos->data->nbr)
@@ -86,18 +89,16 @@ void
 {
 	int		i;
 	pid_t		origin[philos->data->nbr];
-	pthread_t	monitors[philos->data->nbr];
 
 	i = -1;
 	while (++i < philos->data->nbr)
 	{
 		if ((origin[i] = fork()) == 0)
 		{
-			pthread_create(&monitors[i], NULL, check_death, &philos[i]);
 			philosopher(&philos[i]);
 			exit(0);
 		}
 	}
-	usleep(10);
+	usleep(1000);
 	monitor_sim(origin, philos);
 }

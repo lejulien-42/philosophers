@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:32:58 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/17 17:27:13 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:19:33 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void
 	display_state(phi);
 	if (++phi->nbr_of_eats == phi->data->max_launch)
 		phi->data->phi_filled++;
+	phi->last_eat = ft_get_ct(&phi->start);
 	if (phi->state == DIED)
 		return ;
-	phi->last_eat = ft_get_ct(&phi->start);
 	if (ft_usleep(phi->data->time_to_eat, phi))
 	{
 		sem_post(phi->data->forks);

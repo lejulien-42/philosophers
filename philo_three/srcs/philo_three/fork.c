@@ -6,7 +6,7 @@
 /*   By: lejulien <lejulien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 17:48:17 by lejulien          #+#    #+#             */
-/*   Updated: 2021/04/20 17:21:24 by lejulien         ###   ########.fr       */
+/*   Updated: 2021/04/21 15:55:35 by lejulien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void
 	else
 	{
 		display_fork(phi);
-		ft_usleep(phi->data->time_to_die + 1, phi);
+		ft_usleep(phi->data->time_to_die, phi);
 	}
 }
